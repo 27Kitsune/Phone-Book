@@ -465,6 +465,6 @@ class PhoneBook
 	public static void main(String[] args)
 	{
 		PhoneBookManager manager = PhoneBookManager.createManagerInst();
-		MainFrame winFrame = new MainFrame("Phone Book by Daniel Kim");
+		MainFrame winFrame = new MainFrame("Phone Book Group 18");
 	}
 }
