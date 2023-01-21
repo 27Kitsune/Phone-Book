@@ -18,7 +18,9 @@ class PhoneInfo implements Serializable
 {
 	String name;
 	String phoneNumber;
-	
+
+	// String note;
+
 	public PhoneInfo(String name, String num)
 	{
 		this.name = name;
