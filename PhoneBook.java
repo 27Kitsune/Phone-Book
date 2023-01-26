@@ -461,11 +461,122 @@ class MainFrame extends JFrame
 	}
 }
 
-class PhoneBook
-{	
-	public static void main(String[] args)
-	{
-		PhoneBookManager manager = PhoneBookManager.createManagerInst();
-		MainFrame winFrame = new MainFrame("Phone Book Group 18");
+//Setting up the GUI.
+class PhoneBook extends JFrame implements ActionListener {
+	static JLabel l1, l2, l3, l4;
+	static JTextField tf;
+	static JPasswordField pf;
+	static JPanel p1, p2, p3;
+	static JButton bt1;
+	JButton bt2;
+	Font f1, f2;
+
+	PhoneBook() {
+		super("Login Phonebook");
+		setLocation(400, 300);
+		setSize(530, 250);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		f1 = new Font(Font.DIALOG, Font.BOLD, 25);
+		f2 = new Font("Aharoni", Font.BOLD, 15);
+
+		l1 = new JLabel("Welcome to Phonebook");
+		l2 = new JLabel("Username");
+		l3 = new JLabel("Password");
+
+		l1.setHorizontalAlignment(JLabel.CENTER);
+		l1.setFont(f1);
+		l2.setFont(f2);
+		l3.setFont(f2);
+
+		tf = new JTextField(30);
+		pf = new JPasswordField(15);
+
+		tf.setFont(f2);
+		pf.setFont(f2);
+
+		bt1 = new JButton("Login");
+		bt2 = new JButton("Cancel");
+		bt1.addActionListener(this);
+		bt2.addActionListener(this);
+
+		bt1.setFont(f2);
+		bt2.setFont(f2);
+		bt1.setPreferredSize(new Dimension(100, 50));
+		bt2.setPreferredSize(new Dimension(100, 50));
+
+		ImageIcon img = new ImageIcon(ClassLoader.getSystemResource("PBremove.PNG"));
+		Image img2 = img.getImage().getScaledInstance(250, 200, Image.SCALE_DEFAULT);
+		ImageIcon img3 = new ImageIcon(img2);
+		l4 = new JLabel(img3);
+
+		p1 = new JPanel();
+		p1.setLayout(new GridLayout(4, 2, 10, 20));
+		JLabel emptyLabel = new JLabel();
+		emptyLabel.setPreferredSize(new Dimension(10, 2));
+		JLabel emptyLabel2 = new JLabel();
+		emptyLabel2.setPreferredSize(new Dimension(10, 2));
+		p1.add(emptyLabel);
+		p1.add(emptyLabel2);
+		p1.add(l2);
+		p1.add(tf);
+		p1.add(l3);
+		p1.add(pf);
+		p1.add(bt1);
+		p1.add(bt2);
+
+		p2 = new JPanel();
+		p2.setLayout(new GridLayout(1, 5, 10, 20));
+		p2.add(l1);
+
+		p3 = new JPanel();
+		p3.setLayout(new GridLayout(1, 1, 10, 20));
+		p3.add(l4);
+
+		setLayout(new BorderLayout(0, 0));
+
+		add(p2, "North");
+		add(p3, "East");
+		add(p1, "Center");
+
+		// customize color define
+		Color c1 = new Color(255, 204, 0);
+		Color c2 = new Color(255, 255, 204);
+		l1.setFont(new Font("Monospaced", Font.BOLD, 30));
+		l2.setFont(new Font("Monospaced", Font.BOLD, 15));
+		l3.setFont(new Font("Monospaced", Font.BOLD, 15));
+		tf.setBackground(c2);
+		pf.setBackground(c2);
+		p1.setBackground(c1);
+		p2.setBackground(c1);
+		p3.setBackground(c1);
+
 	}
+
+	//Main.
+	public static void main(String[] args) {
+		new PhoneBook().setVisible(true);
+	}
+
+	String username, password;
+
+	//For login purposes.
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+
+		if (e.getSource() == bt1) {
+			username = tf.getText();
+			password = pf.getText();
+			if (username.equals("a") && password.equals("1")) {
+				setVisible(false);
+				PhoneBookManager manager = PhoneBookManager.createManagerInst();
+				MainFrame winFrame = new MainFrame("Group 18: Phone Book Management System");
+			} else
+				setVisible(true);
+		}
+		if (e.getSource() == bt2)
+			System.exit(0);
+	}
+
 }
