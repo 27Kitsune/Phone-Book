@@ -208,17 +208,20 @@ class PhoneBookManager
 	}
 }
 
+//Handles the events when a search is queried. It involves the usage of GUI.
 class SearchEventHandler implements ActionListener
 {
 	JTextField searchField;
 	JTextArea textArea;
-	
+
+	//Constructor.
 	public SearchEventHandler(JTextField field, JTextArea area)
 	{
 		searchField=field;
 		textArea=area;
 	}
-	
+
+	//Action that will be performed once the user clicks search on the GUI.
 	public void actionPerformed(ActionEvent e)
 	{
 		String name = searchField.getText();
@@ -237,6 +240,7 @@ class SearchEventHandler implements ActionListener
 	}
 }
 
+//Handles the events when an add is queried. It involves the usage of GUI.
 class AddEventHandler implements ActionListener
 {
 	JTextField name;
@@ -244,41 +248,69 @@ class AddEventHandler implements ActionListener
 	JTextField major;
 	JTextField year;
 	JTextField company;
+	JTextField note;
+	JTextField BD;
+	JRadioButton gender;
+	String x;
 	JTextArea text;
 	Vector<String> inputList = new Vector<String>();
-	
+
 	boolean isAdded;
-	
+
 	PhoneInfo info;
-	public AddEventHandler(JTextField nameField, JTextField phoneField, JTextField majorField, JTextField yearField, JTextArea textArea)
+
+	//Constructor.
+	public AddEventHandler(JTextField nameField, JTextField phoneField, JTextField noteField, JTextField BDField, JRadioButton button, JTextField majorField, JTextField yearField, JTextArea textArea)
 	{
 		name = nameField;
 		phone = phoneField;
+		note = noteField;
+		BD = BDField;
+		gender = button;
 		major = majorField;
 		year = yearField;
 		text = textArea;
 	}
-	
+
+	//Action that is performed when the add button is clicked.
 	public void actionPerformed(ActionEvent e)
 	{
+		if(gender.isSelected())
+		{
+			x = "Male";
+		}
+		else
+		{
+			x = "Female";
+		}
 		PhoneBookManager manager = PhoneBookManager.createManagerInst();
 		if(major.getText().equals("") == false && year.getText().equals("") == true)
 		{
 			company = major;
-			info = new PhoneCompanyInfo(name.getText(), phone.getText(), company.getText());
+			info = new PhoneCompanyInfo(name.getText(), phone.getText(), note.getText(), BD.getText(), x, company.getText());
 			isAdded = manager.infoStorage.add(info);
-		}		
+		}
 		else if(major.getText().equals("") == false && year.getText().equals("") == false)
 		{
-			info = new PhoneUnivInfo(name.getText(), phone.getText(), major.getText(), Integer.parseInt(year.getText()));
-			isAdded = manager.infoStorage.add(info);
+			//Improvement 4
+			try
+			{
+				info = new PhoneUnivInfo(name.getText(), phone.getText(), note.getText(), BD.getText(), x, major.getText(), Integer.parseInt(year.getText()));
+				isAdded = manager.infoStorage.add(info);
+			}
+
+			catch (Exception x)
+			{
+				text.append("Update Failed, year must be a number.\n");
+				return;
+			}
 		}
 		else
 		{
-			info = new PhoneInfo(name.getText(), phone.getText());
+			info = new PhoneInfo(name.getText(), phone.getText(), note.getText(), BD.getText(), x);
 			isAdded = manager.infoStorage.add(info);
 		}
-		
+
 		if(isAdded)
 		{
 			text.append("Update Completed.\n");
@@ -290,17 +322,20 @@ class AddEventHandler implements ActionListener
 	}
 }
 
+//Handles the events when a delete request is queried. It involves the usage of GUI.
 class DeleteEventHandler implements ActionListener
 {
 	JTextField delField;
 	JTextArea textArea;
-	
+
+	//Constructor.
 	public DeleteEventHandler(JTextField field, JTextArea area)
 	{
 		delField = field;
 		textArea = area;
 	}
-	
+
+	//Action that is taken when the delete button is clicked.
 	public void actionPerformed(ActionEvent e)
 	{
 		String name = delField.getText();
