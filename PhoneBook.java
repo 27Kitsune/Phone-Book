@@ -154,31 +154,39 @@ class PhoneBookManager
 		}
 		return null;
 	}
-	
-	public void storeToFile()
+
+	//Function to store data entries in a .txt file.
+	public boolean storeToFile(String FileName)
 	{
 		try
 		{
-			FileOutputStream file = new FileOutputStream(dataFile);		
-			ObjectOutputStream out = new ObjectOutputStream(file);
-			Iterator<PhoneInfo> itr=infoStorage.iterator();
-			while(itr.hasNext())
-				out.writeObject(itr.next());			
-			out.close();
+			FileWriter file = new FileWriter(FileName);
+			BufferedWriter bw = new BufferedWriter(file);
+
+			Iterator<PhoneInfo> itr = infoStorage.iterator();
+			while(itr.hasNext()) {
+				bw.write(String.valueOf(itr.next()));
+				bw.newLine();
+			}
+			bw.close();
+			return true;
 		}
 		catch(IOException e)
 		{
 			e.printStackTrace();
+			return false;
 		}
 	}
-	
+
+	//Read from a .txt file. Currently, this function does not work properly.
 	public void readFromFile()
 	{
-		if(dataFile.exists() == false)
+		if(dataFile.exists() == false) {
 			return;
+		}
 		try
 		{
-			FileInputStream file = new FileInputStream(dataFile);		
+			FileInputStream file = new FileInputStream(dataFile);
 			ObjectInputStream in = new ObjectInputStream(file);
 			while(true)
 			{
